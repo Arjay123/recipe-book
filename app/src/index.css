@@ -1,3 +1,13 @@
+/*
+
+    dark-blue: 28536B
+    pink: C2948A
+    light-blue: 7EA8BE
+    pink-white: F6F0ED
+    tan: BBB193
+
+*/
+
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -9,20 +19,56 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+ul {
+    list-style: none;
 }
 
 .recipe {
     padding: 30px;
+    background-color: #F6F0ED;
+}
+
+.recipe-hdr {
+    color: #7EA8BE;
+}
+
+.recipe-body {
     display: flex;
     flex-direction: row;
+    color: #7EA8BE;
 }
 
 .ingredients {
     width: 40%;
+    margin-right: 10px;
 }
 
 .directions {
     width: 60%;
+    background-color: #7EA8BE;
+    color: #F6F0ED;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.direction {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.direction-form {
+    margin: 20px;
+}
+
+.ingredient {
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 

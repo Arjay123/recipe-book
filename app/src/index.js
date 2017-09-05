@@ -3,41 +3,161 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-const hello = <h1>Hello, world!</h1>;
 
-class App extends React.Component {
+class Recipe extends React.Component {
     render() {
         var classes = "recipe";
         return (
             <div className={classes}>
-                    <Ingredients />
-                    <Directions />
+                <div className="recipe-hdr">
+                    <h1>Chicken Nuggets</h1>
+                </div>
+                <div className="recipe-body">
+                        <Ingredients />
+                        <Directions />
+                </div>
             </div>
         );
     }
 }
 
 class Ingredients extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            newIngredient: "",
+            newQuantity: ""
+        };
+
+        this.handleIngredientChange = this.handleIngredientChange.bind(this);
+        this.handleQuantityChange = this.handleQuantityChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleIngredientChange(event) {
+        this.setState({
+            newIngredient: event.target.value
+        });
+    }
+
+    handleQuantityChange(event) {
+        this.setState({
+            newQuantity: event.target.value
+        });
+    }
+
+    handleSubmit(event) {
+        alert(this.state.newQuantity + " " + this.state.newIngredient);
+        event.preventDefault();
+    }
+
+
     render() {
-        var classes = "ingredients";
+        const classes = "ingredients";
+        const ingredients = [
+            "1 cup bread crumbs",
+            "1/2 teaspoon garlic powder",
+            "1/2 teaspoon dried thyme",
+            "1/4 cup Dijon mustard",
+            "1/3 cup light mayonnaise",
+            "1 1/2 pounds chicken tenders, cut into 1-inch pieces",
+            "3/4 pound green beans, washed, trimmed and steamed",
+        ];
+        const ing_render = ingredients.map((ingredient, index) =>
+            <Row text={ingredient} class="ingredient" key={index} />
+        );
+
         return (
             <div className={classes}>
-                Ingredients
+                <ul>
+                    {ing_render}
+                </ul>
+                <form onSubmit={this.handleSubmit}>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Ingredient: </td>
+                                <td>
+                                    <input type="text" value={this.state.newIngredient} onChange={this.handleIngredientChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Quantity: </td>
+                                <td>
+                                    <input type="text" value={this.state.newQuantity} onChange={this.handleQuantityChange}/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit" value="Submit" />
+                </form>
             </div>
         );
     }
 }
 
 class Directions extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            newStep: ""
+        };
+
+        this.handleStepChange = this.handleStepChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleStepChange(event) {
+        this.setState({
+            newStep: event.target.value
+        });
+    }
+
+    handleSubmit(event) {
+        alert(this.state.newStep);
+        event.preventDefault();
+    }
+
+
     render() {
-        var classes = "directions";
+        const classes = "directions";
+        const directions = [
+            "Heat oven to broil. Coat baking rack with nonstick cooking spray. Place rack over baking sheet; set aside.",
+            "Stir together bread crumbs, garlic powder and thyme in a pie plate; set aside. Stir together mustard and mayonnaise.",
+            "Reserve about 1/2 cup of mustard mixture for dipping sauce. Brush chicken pieces with remaining mustard mix; place chicken in pie plate with bread crumb mixture, spooning crumbs on top of pieces and pressing to adhere. Transfer to prepared baking rack. Broil for 10 minutes or until cooked through. Serve with reserved dipping sauce and green beans on the side.",
+        ];
+        const dir_render = directions.map((direction, index) =>
+            <Row text={direction} class="direction" key={index}/>
+        );
         return (
             <div className={classes}>
-                Directions
+                <ol>
+                    {dir_render}
+                </ol>
+                <div className="direction-form">
+                    <h3>Add Direction</h3>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <textarea value={this.state.newStep} onChange={this.handleStepChange} />
+                        </div>
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
             </div>
         );
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+class Row extends React.Component {
+    render() {
+        return (
+            <li className={this.props.class}>{this.props.text}</li>
+        );
+    }
+}
+
+ReactDOM.render(<Recipe />, document.getElementById('root'));
 registerServiceWorker();
