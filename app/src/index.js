@@ -39,6 +39,8 @@ class Recipe extends React.Component {
 
         this.handleIngredientAdd = this.handleIngredientAdd.bind(this);
         this.handleDirectionAdd = this.handleDirectionAdd.bind(this);
+        this.swapDirections = this.swapDirections.bind(this);
+        this.swapElements = this.swapElements.bind(this);
     }
 
     handleIngredientAdd(value) {
@@ -53,6 +55,20 @@ class Recipe extends React.Component {
         });
     }
 
+    swapDirections(from_i, to_i) {
+        this.setState({
+            directions: this.swapElements(this.state.directions.slice(), from_i, to_i)
+        });
+    }
+
+    swapElements(arr, i, j) {
+        var hold = arr[j];
+        arr[j] = arr[i];
+        arr[i] = hold;
+
+        return arr;
+    }
+
     render() {
         var classes = "recipe";
         return (
@@ -62,7 +78,7 @@ class Recipe extends React.Component {
                 </div>
                 <div className="recipe-body">
                         <Ingredients ingredients={this.state.ingredients} onIngredientAdd={this.handleIngredientAdd} />
-                        <Directions directions={this.state.directions} onDirectionAdd={this.handleDirectionAdd} />
+                        <Directions directions={this.state.directions} onDirectionAdd={this.handleDirectionAdd} swapDirections={this.swapDirections}/>
                 </div>
             </div>
         );
@@ -154,6 +170,24 @@ class Directions extends React.Component {
 
         this.handleStepChange = this.handleStepChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.dragStart = this.dragStart.bind(this);
+        this.dragEnd = this.dragEnd.bind(this);
+        this.dragOver = this.dragOver.bind(this);
+    }
+
+    dragStart(e) {
+        this.dragged = e.currentTarget;
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/html", this.dragged);
+    }
+
+    dragEnd(e) {
+        this.props.swapDirections(this.dragged.dataset.id, this.over.dataset.id);
+    }
+
+    dragOver(e) {
+        e.preventDefault();
+        this.over = e.target;
     }
 
     handleStepChange(event) {
@@ -173,13 +207,21 @@ class Directions extends React.Component {
     render() {
         const classes = "directions";
         const dir_render = this.props.directions.map((direction, index) =>
-            <Row text={direction} class="direction" key={index}/>
+            <Row
+                text={direction}
+                class="direction"
+                dataID={index}
+                key={index}
+                onDragStart={this.dragStart}
+                onDragEnd={this.dragEnd}
+                onDragOver={this.dragOver}
+            />
         );
 
         return (
             <div className={classes}>
                 <h2 className="hdr" >Directions</h2>
-                <ol>
+                <ol onDragOver={this.dragOver}>
                     {dir_render}
                 </ol>
                 <div className="direction-form">
@@ -200,7 +242,7 @@ class Directions extends React.Component {
 class Row extends React.Component {
     render() {
         return (
-            <li className={this.props.class}>{this.props.text}</li>
+            <li draggable="true" data-id={this.props.dataID} className={this.props.class} onDragStart={this.props.onDragStart} onDragEnd={this.props.onDragEnd}>{this.props.text}</li>
         );
     }
 }
