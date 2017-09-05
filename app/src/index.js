@@ -3,6 +3,31 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
+class Navbar extends React.Component {
+    render() {
+        return (
+            <div id="navbar">
+              <div className="navbar-hdr">
+                <div className="site-hdr">RECIPE BOOK</div>
+              </div>
+              <div className="navbar-links">
+                <div className="navbar-link"><a href="#">HOME</a></div>
+                <div className="navbar-link"><a href="#">RECIPES</a></div>
+                <div className="navbar-link"><a href="#">LINK1</a></div>
+                <div className="navbar-link"><a href="#">LINK2</a></div>
+              </div>
+              <div className="navbar-foot">
+                  <span>Stay Connected</span>
+                  <div>
+                    <a href="#"><i className="fa fa-github" aria-hidden="true"></i></a>
+                    <a href="#"><i className="fa fa-facebook-official" aria-hidden="true"></i></a>
+                    <a href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a>
+                  </div>
+              </div>
+            </div>
+        );
+    }
+}
 
 class Recipe extends React.Component {
     constructor(props) {
@@ -197,5 +222,14 @@ var recipe = {
         ]
 };
 
-ReactDOM.render(<Recipe recipe={recipe} />, document.getElementById('root'));
+function App() {
+    return (
+        <div className="wrap">
+            <Navbar />
+            <Recipe recipe={recipe} />
+        </div>
+    );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

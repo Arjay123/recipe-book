@@ -20,10 +20,71 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
 }
 
 ul {
     list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.fa {
+    padding-left: 5px;
+}
+
+#root {
+    height: 100%;
+    width: calc(100% - 200px);
+    float: right;
+    overflow-y: auto;
+}
+
+#navbar {
+    position:absolute;
+    top:0; bottom:0; left:0;
+    width:200px;
+    height: 100%;
+    background-color: #28536B;
+    text-align: right;
+    padding-top: 20px;
+    color: #7EA8BE;
+}
+
+.flex {
+    display: flex;
+}
+
+.site-hdr {
+    font-size: 30px;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: #F6F0ED;
+}
+
+.navbar-hdr {
+    margin-right: 10px;
+}
+
+.navbar-foot {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    color: #F6F0ED;
+}
+
+.navbar-links {
+    margin-right: 10px;
+    color: #7EA8BE;
+}
+
+.navbar-link {
+    font-size: 30px;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 .recipe {
