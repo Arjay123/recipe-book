@@ -115,6 +115,7 @@ class Directions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            directions: recipe.directions,
             newStep: ""
         };
 
@@ -129,14 +130,15 @@ class Directions extends React.Component {
     }
 
     handleSubmit(event) {
-        alert(this.state.newStep);
+        this.setState({
+            directions: this.state.directions.concat(this.state.newStep)
+        })
         event.preventDefault();
     }
 
     render() {
         const classes = "directions";
-        const directions = recipe.directions;
-        const dir_render = directions.map((direction, index) =>
+        const dir_render = this.state.directions.map((direction, index) =>
             <Row text={direction} class="direction" key={index}/>
         );
 

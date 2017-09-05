@@ -87,6 +87,12 @@ ul {
     border-color: #F6F0ED;
     font-size: 14px;
     color: #C2948A;
+    outline: none;
+    overflow-y: auto;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .submit-direction {
