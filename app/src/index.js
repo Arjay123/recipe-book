@@ -3,6 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
+var recipe = {
+    "ingredients": [
+            "1 cup bread crumbs",
+            "1/2 teaspoon garlic powder",
+            "1/2 teaspoon dried thyme",
+            "1/4 cup Dijon mustard",
+            "1/3 cup light mayonnaise",
+            "1 1/2 pounds chicken tenders, cut into 1-inch pieces",
+            "3/4 pound green beans, washed, trimmed and steamed"
+    ],
+    "directions": ["Heat oven to broil. Coat baking rack with nonstick cooking spray. Place rack over baking sheet; set aside.",
+            "Stir together bread crumbs, garlic powder and thyme in a pie plate; set aside. Stir together mustard and mayonnaise.",
+            "Reserve about 1/2 cup of mustard mixture for dipping sauce. Brush chicken pieces with remaining mustard mix; place chicken in pie plate with bread crumb mixture, spooning crumbs on top of pieces and pressing to adhere. Transfer to prepared baking rack. Broil for 10 minutes or until cooked through. Serve with reserved dipping sauce and green beans on the side."
+        ]
+};
 
 class Recipe extends React.Component {
     render() {
@@ -26,6 +41,7 @@ class Ingredients extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            ingredients: recipe.ingredients,
             newIngredient: "",
             newQuantity: ""
         };
@@ -48,23 +64,16 @@ class Ingredients extends React.Component {
     }
 
     handleSubmit(event) {
-        alert(this.state.newQuantity + " " + this.state.newIngredient);
+        this.setState({
+            ingredients: this.state.ingredients.concat(this.state.newQuantity + " " + this.state.newIngredient)
+        });
         event.preventDefault();
     }
 
 
     render() {
         const classes = "ingredients";
-        const ingredients = [
-            "1 cup bread crumbs",
-            "1/2 teaspoon garlic powder",
-            "1/2 teaspoon dried thyme",
-            "1/4 cup Dijon mustard",
-            "1/3 cup light mayonnaise",
-            "1 1/2 pounds chicken tenders, cut into 1-inch pieces",
-            "3/4 pound green beans, washed, trimmed and steamed",
-        ];
-        const ing_render = ingredients.map((ingredient, index) =>
+        const ing_render = this.state.ingredients.map((ingredient, index) =>
             <Row text={ingredient} class="ingredient" key={index} />
         );
 
@@ -96,7 +105,6 @@ class Ingredients extends React.Component {
                         <input className="submit-ingredient" type="submit" value="Submit" />
                     </form>
                 </div>
-
             </div>
         );
     }
@@ -125,17 +133,13 @@ class Directions extends React.Component {
         event.preventDefault();
     }
 
-
     render() {
         const classes = "directions";
-        const directions = [
-            "Heat oven to broil. Coat baking rack with nonstick cooking spray. Place rack over baking sheet; set aside.",
-            "Stir together bread crumbs, garlic powder and thyme in a pie plate; set aside. Stir together mustard and mayonnaise.",
-            "Reserve about 1/2 cup of mustard mixture for dipping sauce. Brush chicken pieces with remaining mustard mix; place chicken in pie plate with bread crumb mixture, spooning crumbs on top of pieces and pressing to adhere. Transfer to prepared baking rack. Broil for 10 minutes or until cooked through. Serve with reserved dipping sauce and green beans on the side.",
-        ];
+        const directions = recipe.directions;
         const dir_render = directions.map((direction, index) =>
             <Row text={direction} class="direction" key={index}/>
         );
+
         return (
             <div className={classes}>
                 <h2 className="hdr" >Directions</h2>
