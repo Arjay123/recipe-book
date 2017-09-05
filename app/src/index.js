@@ -3,23 +3,31 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-var recipe = {
-    "ingredients": [
-            "1 cup bread crumbs",
-            "1/2 teaspoon garlic powder",
-            "1/2 teaspoon dried thyme",
-            "1/4 cup Dijon mustard",
-            "1/3 cup light mayonnaise",
-            "1 1/2 pounds chicken tenders, cut into 1-inch pieces",
-            "3/4 pound green beans, washed, trimmed and steamed"
-    ],
-    "directions": ["Heat oven to broil. Coat baking rack with nonstick cooking spray. Place rack over baking sheet; set aside.",
-            "Stir together bread crumbs, garlic powder and thyme in a pie plate; set aside. Stir together mustard and mayonnaise.",
-            "Reserve about 1/2 cup of mustard mixture for dipping sauce. Brush chicken pieces with remaining mustard mix; place chicken in pie plate with bread crumb mixture, spooning crumbs on top of pieces and pressing to adhere. Transfer to prepared baking rack. Broil for 10 minutes or until cooked through. Serve with reserved dipping sauce and green beans on the side."
-        ]
-};
 
 class Recipe extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ingredients: props.recipe.ingredients,
+            directions: props.recipe.directions
+        };
+
+        this.handleIngredientAdd = this.handleIngredientAdd.bind(this);
+        this.handleDirectionAdd = this.handleDirectionAdd.bind(this);
+    }
+
+    handleIngredientAdd(value) {
+        this.setState({
+            ingredients: this.state.ingredients.concat(value)
+        });
+    }
+
+    handleDirectionAdd(value) {
+        this.setState({
+            directions: this.state.directions.concat(value)
+        });
+    }
+
     render() {
         var classes = "recipe";
         return (
@@ -28,8 +36,8 @@ class Recipe extends React.Component {
                     <h1>Chicken Nuggets</h1>
                 </div>
                 <div className="recipe-body">
-                        <Ingredients />
-                        <Directions />
+                        <Ingredients ingredients={this.state.ingredients} onIngredientAdd={this.handleIngredientAdd} />
+                        <Directions directions={this.state.directions} onDirectionAdd={this.handleDirectionAdd} />
                 </div>
             </div>
         );
@@ -41,7 +49,6 @@ class Ingredients extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ingredients: recipe.ingredients,
             newIngredient: "",
             newQuantity: ""
         };
@@ -64,8 +71,10 @@ class Ingredients extends React.Component {
     }
 
     handleSubmit(event) {
+        this.props.onIngredientAdd(this.state.newQuantity + " " + this.state.newIngredient);
         this.setState({
-            ingredients: this.state.ingredients.concat(this.state.newQuantity + " " + this.state.newIngredient)
+            newIngredient: "",
+            newQuantity: ""
         });
         event.preventDefault();
     }
@@ -73,7 +82,7 @@ class Ingredients extends React.Component {
 
     render() {
         const classes = "ingredients";
-        const ing_render = this.state.ingredients.map((ingredient, index) =>
+        const ing_render = this.props.ingredients.map((ingredient, index) =>
             <Row text={ingredient} class="ingredient" key={index} />
         );
 
@@ -115,7 +124,6 @@ class Directions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            directions: recipe.directions,
             newStep: ""
         };
 
@@ -130,15 +138,16 @@ class Directions extends React.Component {
     }
 
     handleSubmit(event) {
+        this.props.onDirectionAdd(this.state.newStep);
         this.setState({
-            directions: this.state.directions.concat(this.state.newStep)
-        })
+            newStep: ""
+        });
         event.preventDefault();
     }
 
     render() {
         const classes = "directions";
-        const dir_render = this.state.directions.map((direction, index) =>
+        const dir_render = this.props.directions.map((direction, index) =>
             <Row text={direction} class="direction" key={index}/>
         );
 
@@ -171,5 +180,22 @@ class Row extends React.Component {
     }
 }
 
-ReactDOM.render(<Recipe />, document.getElementById('root'));
+
+var recipe = {
+    "ingredients": [
+            "1 cup bread crumbs",
+            "1/2 teaspoon garlic powder",
+            "1/2 teaspoon dried thyme",
+            "1/4 cup Dijon mustard",
+            "1/3 cup light mayonnaise",
+            "1 1/2 pounds chicken tenders, cut into 1-inch pieces",
+            "3/4 pound green beans, washed, trimmed and steamed"
+    ],
+    "directions": ["Heat oven to broil. Coat baking rack with nonstick cooking spray. Place rack over baking sheet; set aside.",
+            "Stir together bread crumbs, garlic powder and thyme in a pie plate; set aside. Stir together mustard and mayonnaise.",
+            "Reserve about 1/2 cup of mustard mixture for dipping sauce. Brush chicken pieces with remaining mustard mix; place chicken in pie plate with bread crumb mixture, spooning crumbs on top of pieces and pressing to adhere. Transfer to prepared baking rack. Broil for 10 minutes or until cooked through. Serve with reserved dipping sauce and green beans on the side."
+        ]
+};
+
+ReactDOM.render(<Recipe recipe={recipe} />, document.getElementById('root'));
 registerServiceWorker();
