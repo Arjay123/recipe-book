@@ -46,6 +46,11 @@ ul {
     margin-right: 10px;
 }
 
+.ingredient-form {
+    margin: 20px;
+    overflow: hidden;
+}
+
 .directions {
     width: 60%;
     background-color: #7EA8BE;
@@ -56,6 +61,10 @@ ul {
     margin-right: 20px;
 }
 
+.hdr {
+    margin-left: 20px;
+}
+
 .direction {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -64,11 +73,40 @@ ul {
 
 .direction-form {
     margin: 20px;
+    overflow: hidden;
 }
 
 .ingredient {
     margin-bottom: 5px;
     margin-right: 5px;
+}
+
+.textarea {
+    width: 100%;
+    resize: none;
+    border-radius: 5px;
+    border-color: #F6F0ED;
+    font-size: 14px;
+    color: #C2948A;
+}
+
+.submit-direction {
+    font-size: 14px;
+    border-radius: 5px;
+    border-color: transparent;
+    background-color: #F6F0ED;
+    color: #7EA8BE;
+    float: right;
+    margin-top: 5px;
+}
+
+.submit-ingredient {
+    font-size: 14px;
+    border-radius: 5px;
+    border-color: transparent;
+    background-color: #7EA8BE;
+    color: #F6F0ED;
+    float: right;
 }
 
 

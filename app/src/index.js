@@ -70,28 +70,33 @@ class Ingredients extends React.Component {
 
         return (
             <div className={classes}>
+                <h2 className="hdr">Ingredients</h2>
                 <ul>
                     {ing_render}
                 </ul>
-                <form onSubmit={this.handleSubmit}>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>Ingredient: </td>
-                                <td>
-                                    <input type="text" value={this.state.newIngredient} onChange={this.handleIngredientChange}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Quantity: </td>
-                                <td>
-                                    <input type="text" value={this.state.newQuantity} onChange={this.handleQuantityChange}/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <input type="submit" value="Submit" />
-                </form>
+                <div className="ingredient-form">
+                    <h3>Add Ingredient</h3>
+                    <form onSubmit={this.handleSubmit}>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Ingredient: </td>
+                                    <td>
+                                        <input type="text" value={this.state.newIngredient} onChange={this.handleIngredientChange}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Quantity: </td>
+                                    <td>
+                                        <input type="text" value={this.state.newQuantity} onChange={this.handleQuantityChange}/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <input className="submit-ingredient" type="submit" value="Submit" />
+                    </form>
+                </div>
+
             </div>
         );
     }
@@ -133,6 +138,7 @@ class Directions extends React.Component {
         );
         return (
             <div className={classes}>
+                <h2 className="hdr" >Directions</h2>
                 <ol>
                     {dir_render}
                 </ol>
@@ -140,9 +146,9 @@ class Directions extends React.Component {
                     <h3>Add Direction</h3>
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <textarea value={this.state.newStep} onChange={this.handleStepChange} />
+                            <textarea className="textarea" rows={5} value={this.state.newStep} onChange={this.handleStepChange} />
                         </div>
-                        <input type="submit" value="Submit" />
+                        <input className="submit-direction" type="submit" value="Submit" />
                     </form>
                 </div>
             </div>
