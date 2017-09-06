@@ -40,6 +40,7 @@ class Recipe extends React.Component {
         this.handleIngredientAdd = this.handleIngredientAdd.bind(this);
         this.handleDirectionAdd = this.handleDirectionAdd.bind(this);
         this.swapDirections = this.swapDirections.bind(this);
+        this.swapIngredients = this.swapIngredients.bind(this);
         this.swapElements = this.swapElements.bind(this);
     }
 
@@ -61,6 +62,12 @@ class Recipe extends React.Component {
         });
     }
 
+    swapIngredients(from_i, to_i) {
+        this.setState({
+            ingredients: this.swapElements(this.state.ingredients.slice(), from_i, to_i)
+        });
+    }
+
     swapElements(arr, i, j) {
         var hold = arr[j];
         arr[j] = arr[i];
@@ -77,8 +84,16 @@ class Recipe extends React.Component {
                     <h1>Chicken Nuggets</h1>
                 </div>
                 <div className="recipe-body">
-                        <Ingredients ingredients={this.state.ingredients} onIngredientAdd={this.handleIngredientAdd} />
-                        <Directions directions={this.state.directions} onDirectionAdd={this.handleDirectionAdd} swapDirections={this.swapDirections}/>
+                        <Ingredients
+                            ingredients={this.state.ingredients}
+                            onIngredientAdd={this.handleIngredientAdd}
+                            swapIngredients={this.swapIngredients}
+                        />
+                        <Directions
+                            directions={this.state.directions}
+                            onDirectionAdd={this.handleDirectionAdd}
+                            swapDirections={this.swapDirections}
+                        />
                 </div>
             </div>
         );
@@ -97,6 +112,44 @@ class Ingredients extends React.Component {
         this.handleIngredientChange = this.handleIngredientChange.bind(this);
         this.handleQuantityChange = this.handleQuantityChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.dragStart = this.dragStart.bind(this);
+        this.dragEnd = this.dragEnd.bind(this);
+        this.dragOver = this.dragOver.bind(this);
+    }
+
+    dragStart(e) {
+        this.dragged = e.currentTarget;
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/html", this.dragged);
+    }
+
+    dragEnd(e) {
+
+        const fromID = this.dragged.dataset.id;
+        const toID = this.over.dataset.id;
+
+
+        if(fromID === toID){
+            console.log("same index, no swap");
+            return;
+        }
+
+        if(fromID === undefined || fromID >= this.props.ingredients.length){
+            console.log("from element swap not valid");
+            return;
+        }
+
+        if(toID === undefined || toID >= this.props.ingredients.length){
+            console.log("to element swap not valid");
+            return;
+        }
+
+        this.props.swapIngredients(this.dragged.dataset.id, this.over.dataset.id);
+    }
+
+    dragOver(e) {
+        e.preventDefault();
+        this.over = e.target;
     }
 
     handleIngredientChange(event) {
@@ -124,13 +177,21 @@ class Ingredients extends React.Component {
     render() {
         const classes = "ingredients";
         const ing_render = this.props.ingredients.map((ingredient, index) =>
-            <Row text={ingredient} class="ingredient" key={index} />
+            <Row
+                text={ingredient}
+                class="ingredient"
+                dataID={index}
+                key={index}
+                onDragStart={this.dragStart}
+                onDragEnd={this.dragEnd}
+                onDragOver={this.dragOver}
+            />
         );
 
         return (
             <div className={classes}>
                 <h2 className="hdr">Ingredients</h2>
-                <ul>
+                <ul onDragOver={this.dragOver}>
                     {ing_render}
                 </ul>
                 <div className="ingredient-form">
@@ -160,6 +221,8 @@ class Ingredients extends React.Component {
     }
 }
 
+
+
 class Directions extends React.Component {
 
     constructor(props) {
@@ -182,6 +245,25 @@ class Directions extends React.Component {
     }
 
     dragEnd(e) {
+
+        const fromID = this.dragged.dataset.id;
+        const toID = this.over.dataset.id;
+
+        if(fromID === toID){
+            console.log("same index, no swap");
+            return;
+        }
+
+        if(fromID === undefined || fromID >= this.props.directions.length){
+            console.log("from element swap not valid");
+            return;
+        }
+
+        if(toID === undefined || toID >= this.props.directions.length){
+            console.log("to element swap not valid");
+            return;
+        }
+
         this.props.swapDirections(this.dragged.dataset.id, this.over.dataset.id);
     }
 
