@@ -322,10 +322,52 @@ class Directions extends React.Component {
 
 
 class Row extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            hover: false
+        };
+
+        this.mouseEnter = this.mouseEnter.bind(this);
+        this.mouseLeave = this.mouseLeave.bind(this);
+    }
+
+    mouseEnter(e){
+        this.setState({
+            hover: true
+        });
+    }
+
+    mouseLeave(e){
+        this.setState({
+            hover: false
+        });
+    }
+
     render() {
-        return (
-            <li draggable="true" data-id={this.props.dataID} className={this.props.class} onDragStart={this.props.onDragStart} onDragEnd={this.props.onDragEnd}>{this.props.text}</li>
-        );
+
+        let item = <li
+                onMouseEnter={this.mouseEnter}
+                onMouseLeave={this.mouseLeave}
+                draggable="true"
+                data-id={this.props.dataID}
+                className={this.props.class}
+                onDragStart={this.props.onDragStart}
+                onDragEnd={this.props.onDragEnd}
+            >
+                {this.props.text}
+            </li>;
+        if(this.state.hover){
+            return (
+                <div>
+                {item}
+                <span>Hovering</span>
+                </div>
+            );
+        }
+        return item;
+
     }
 }
 

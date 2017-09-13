@@ -90,6 +90,7 @@ a {
 .recipe {
     padding: 30px;
     background-color: #F6F0ED;
+    height: 100vh;
 }
 
 .recipe-hdr {
@@ -137,8 +138,8 @@ a {
 }
 
 .ingredient {
-    margin-bottom: 5px;
-    margin-right: 5px;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
 
 .textarea {
